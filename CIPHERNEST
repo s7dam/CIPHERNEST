@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 40px; }
+        .card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; max-width: 700px; margin: auto; border-top: 10px solid #0056b3; }
+        h1 { color: #0056b3; text-align: center; font-size: 28px; }
+        .service { margin-bottom: 25px; padding: 15px; border-right: 5px solid #00b4d8; background: #f9f9f9; }
+        .service h3 { margin: 0 0 10px 0; color: #0077b6; }
+        .price-tag { background: #0056b3; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; float: left; }
+        .footer { text-align: center; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px; font-style: italic; }
+        .highlight { color: #e63946; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚀 CipherNest: حلولك التقنية المتكاملة</h1>
+        <p style="text-align: center; font-weight: bold;">مستقبل أعمالك يبدأ هنا.. ذكي، آمن، ومتطور!</p>
+        
+        <div class="service">
+            <span class="price-tag">من $500</span>
+            <h3>💻 تطوير البرمجيات</h3>
+            <p>بناء المواقع الإلكترونية، تطبيقات الهاتف، والأنظمة الإدارية المخصصة بأحدث التقنيات العالمية.</p>
+        </div>
+
+        <div class="service">
+            <span class="price-tag">من $300</span>
+            <h3>🛡️ الأمن السيبراني</h3>
+            <p>فحص شامل للثغرات، حماية البيانات الحساسة، وتأمين السيرفرات ضد كافة أنواع الهجمات الرقمية.</p>
+        </div>
+
+        <div class="service" style="border-right-color: #7209b7;">
+            <h3>🤖 أتمتة الذكاء الاصطناعي</h3>
+            <p>دمج أدوات الذكاء الاصطناعي في سير عملك لرفع الكفاءة، تقليل التكاليف، وزيادة الإنتاجية.</p>
+        </div>
+
+        <div style="text-align: center; background: #e9f5ff; padding: 15px; border-radius: 10px;">
+            <p class="highlight">🎁 عرض خاص: استشارة تقنية أولية مجانية!</p>
+        </div>
+
+        <div class="footer">
+            <p>أهلاً، أنا <b>سايبر</b>، المساعد الذكي من <b>CipherNest</b>. تواصل معنا الآن لتحويل فكرتك إلى واقع!</p>
+        </div>
+    </div>
+</body>
+</html>
