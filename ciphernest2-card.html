@@ -1,512 +1,280 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CipherNest — حلولك التقنية</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<style>
-:root {
-  --blue: #0056b3;
-  --cyan: #00b4d8;
-  --red: #e63946;
-  --purple: #7209b7;
-  --bg: #eef4fb;
-  --card-bg: #fff;
-  --dark: #0a1628;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'Tajawal', sans-serif;
-  background: var(--bg);
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 2rem;
-  position: relative; overflow-x: hidden;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherNest | التميز البرمجي والأمني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --neon-cyan: #00f2ff; 
+            --neon-purple: #7000ff;
+            --dark-bg: #010103; 
+            --card-bg: rgba(10, 10, 15, 0.8);
+        }
 
-/* animated bg blobs */
-body::before, body::after {
-  content: '';
-  position: fixed; border-radius: 50%; filter: blur(80px);
-  pointer-events: none; z-index: 0;
-}
-body::before {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(0,86,179,0.12), transparent);
-  top: -100px; right: -100px;
-  animation: blob1 8s ease-in-out infinite alternate;
-}
-body::after {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(0,180,216,0.1), transparent);
-  bottom: -100px; left: -100px;
-  animation: blob2 10s ease-in-out infinite alternate;
-}
-@keyframes blob1 { to { transform: translate(40px, 60px) scale(1.1); } }
-@keyframes blob2 { to { transform: translate(-40px, -60px) scale(1.15); } }
+        body { 
+            background-color: var(--dark-bg); 
+            /* خلفية جذابة بتدرج شعاعي يعطي عمقاً للموقع */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
+            color: white; 
+            font-family: 'Tajawal', sans-serif; 
+            margin: 0; 
+            min-height: 100vh;
+        }
 
-.card {
-  background: var(--card-bg);
-  border-radius: 24px;
-  box-shadow: 0 20px 70px rgba(0,86,179,0.13), 0 2px 8px rgba(0,0,0,0.05);
-  padding: 0;
-  max-width: 680px; width: 100%;
-  position: relative; z-index: 1;
-  overflow: hidden;
-  animation: cardIn 0.7s cubic-bezier(0.34,1.56,0.64,1);
-}
-@keyframes cardIn { from { transform: translateY(40px) scale(0.95); opacity: 0; } to { transform: none; opacity: 1; } }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        
+        /* تأثيرات الظهور */
+        .page-section { display: none; animation: slideUp 0.6s ease-out; }
+        .active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-/* HEADER */
-.card-header {
-  background: linear-gradient(135deg, #0056b3 0%, #0077c8 60%, #00b4d8 100%);
-  padding: 2.5rem 2.5rem 2rem;
-  position: relative; overflow: hidden;
-}
-.card-header::after {
-  content: '';
-  position: absolute; bottom: -30px; left: 0; right: 0;
-  height: 60px;
-  background: var(--card-bg);
-  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-}
-.card-header h1 {
-  color: #fff; font-size: 1.7rem; font-weight: 900;
-  text-align: center; margin-bottom: 0.4rem;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-.card-header .sub {
-  color: rgba(255,255,255,0.82); text-align: center;
-  font-size: 0.92rem; font-weight: 400;
-}
-/* circuit lines bg */
-.card-header .circuits {
-  position: absolute; inset: 0; opacity: 0.07;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px);
-  background-size: 35px 35px;
-}
-.badge-live {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
-  color: #fff; border-radius: 50px; padding: 0.3rem 0.9rem;
-  font-size: 0.72rem; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace;
-  margin-bottom: 1rem;
-}
-.dot-live { width: 7px; height: 7px; border-radius: 50%; background: #4dffaa; animation: pdot 1.5s ease-in-out infinite; }
-@keyframes pdot { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(77,255,170,0.7); } 50% { transform: scale(1.4); box-shadow: 0 0 0 5px rgba(77,255,170,0); } }
+        /* الهيدر بتصميم زجاجي */
+        header { 
+            text-align: center; 
+            padding: 50px 0; 
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(5px);
+            border-radius: 0 0 40px 40px;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.15);
+            margin-bottom: 50px;
+        }
+        .logo { 
+            font-size: 40px; 
+            font-weight: 900; 
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(112, 0, 255, 0.3);
+            cursor: pointer;
+            letter-spacing: 2px;
+        }
 
-/* BODY */
-.card-body { padding: 1rem 2.5rem 2rem; }
+        /* كروت الخدمات الجذابة مع الصور */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .service-card { 
+            background: var(--card-bg); 
+            border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            overflow: hidden; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+        .service-card:hover { 
+            border-color: var(--neon-cyan); 
+            transform: scale(1.04);
+            box-shadow: 0 20px 40px rgba(0, 242, 255, 0.15);
+        }
+        /* تصميم مكان الصورة الاحترافية */
+        .img-box { 
+            height: 200px; 
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* لضمان ملء الصورة للمكان دون تشويه */
+            transition: 0.5s;
+        }
+        .service-card:hover .img-box img {
+            transform: scale(1.1); /* تأثير زوم خفيف عند التمرير */
+        }
+        
+        .card-body { padding: 25px; text-align: center; }
+        .card-body h3 { margin: 0 0 12px; font-size: 20px; color: #fff; }
+        .card-body p { color: #aaaaaa; font-size: 14px; line-height: 1.6; }
 
-/* TABS */
-.tabs { display: flex; gap: 0.5rem; margin-bottom: 1.8rem; }
-.tab {
-  flex: 1; padding: 0.6rem; border-radius: 10px;
-  border: 2px solid #e8edf2; background: transparent;
-  font-family: 'Tajawal', sans-serif; font-size: 0.85rem; font-weight: 700;
-  color: #7a8fa0; cursor: pointer; transition: all 0.25s;
-}
-.tab.active { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 4px 15px rgba(0,86,179,0.3); }
-.tab:hover:not(.active) { border-color: var(--cyan); color: var(--blue); }
+        /* تفاصيل الخدمة والنموذج */
+        .details-container { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; margin-top: 20px; }
+        @media (max-width: 768px) { .details-container { grid-template-columns: 1fr; } }
+        
+        .back-btn { color: var(--neon-cyan); cursor: pointer; font-weight: bold; margin-bottom: 30px; display: flex; align-items: center; gap: 10px; }
+        
+        /* تصميم الصورة الكبيرة في صفحة التفاصيل */
+        .detail-img-box {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid #222;
+        }
+        .detail-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-/* SERVICES */
-.services { display: none; flex-direction: column; gap: 1rem; }
-.services.show { display: flex; }
+        .form-box { 
+            background: linear-gradient(145deg, rgba(20, 20, 30, 0.95), rgba(10, 10, 15, 0.95)); 
+            padding: 35px; 
+            border-radius: 25px; 
+            border: 1px solid rgba(112, 0, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+        
+        input, select { 
+            width: 100%; padding: 16px; margin-bottom: 18px; 
+            background: rgba(0, 0, 0, 0.3); border: 1px solid #333; 
+            color: white; border-radius: 12px; font-family: 'Tajawal'; font-size: 15px;
+        }
+        input:focus { border-color: var(--neon-purple); outline: none; }
 
-.svc {
-  border-radius: 14px; padding: 1.2rem 1.5rem;
-  border: 2px solid #eef2f7;
-  cursor: pointer; transition: all 0.3s;
-  position: relative; overflow: hidden;
-  background: #fafcff;
-}
-.svc::before {
-  content: ''; position: absolute; right: 0; top: 0;
-  width: 4px; height: 0; transition: height 0.35s;
-  border-radius: 0 14px 14px 0;
-}
-.svc.blue::before { background: var(--blue); }
-.svc.cyan::before { background: var(--cyan); }
-.svc.purple::before { background: var(--purple); }
-.svc:hover, .svc.open { border-color: transparent; box-shadow: 0 6px 25px rgba(0,86,179,0.12); }
-.svc:hover::before, .svc.open::before { height: 100%; }
-.svc:hover { transform: translateX(-4px); }
-
-.svc-top { display: flex; align-items: center; justify-content: space-between; }
-.svc-left { display: flex; align-items: center; gap: 1rem; }
-.svc-icon { font-size: 1.8rem; }
-.svc-title { font-size: 1rem; font-weight: 700; color: #1a2940; }
-.svc-desc-short { font-size: 0.8rem; color: #7a8fa0; margin-top: 0.15rem; }
-.price { background: var(--blue); color: #fff; padding: 0.3rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
-.price.cyan { background: var(--cyan); }
-.price.purple { background: var(--purple); }
-.arrow { color: #b0c4d8; font-size: 1.2rem; margin-left: 0.5rem; transition: transform 0.3s; }
-.svc.open .arrow { transform: rotate(90deg); color: var(--blue); }
-
-.svc-detail {
-  max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
-  font-size: 0.88rem; color: #4a6070; line-height: 1.7;
-}
-.svc.open .svc-detail { max-height: 200px; padding-top: 0.9rem; }
-.svc-detail ul { padding-right: 1.2rem; }
-.svc-detail ul li { margin-bottom: 0.3rem; }
-
-/* OFFER */
-.offer-box {
-  background: linear-gradient(135deg, #fff5f5, #fff0fa);
-  border: 2px dashed var(--red); border-radius: 14px;
-  padding: 1.1rem 1.5rem; text-align: center;
-  margin: 1.2rem 0;
-  animation: pulse-offer 3s ease-in-out infinite;
-}
-@keyframes pulse-offer {
-  0%,100% { box-shadow: 0 0 0 0 rgba(230,57,70,0.15); }
-  50% { box-shadow: 0 0 0 8px rgba(230,57,70,0); }
-}
-.offer-box p { color: var(--red); font-weight: 900; font-size: 1rem; }
-.offer-box small { color: #7a8fa0; font-size: 0.8rem; }
-
-/* CHATBOT */
-.chat-panel { display: none; flex-direction: column; height: 380px; }
-.chat-panel.show { display: flex; }
-.chat-msgs {
-  flex: 1; overflow-y: auto; padding: 0.5rem 0;
-  display: flex; flex-direction: column; gap: 0.8rem;
-  scrollbar-width: thin; scrollbar-color: #dde3eb transparent;
-}
-.msg { display: flex; gap: 0.6rem; align-items: flex-end; animation: msgIn 0.3s ease; }
-@keyframes msgIn { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
-.msg.bot { flex-direction: row; }
-.msg.user { flex-direction: row-reverse; }
-.avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
-.bot .avatar { background: linear-gradient(135deg, var(--blue), var(--cyan)); }
-.user .avatar { background: linear-gradient(135deg, #e8edf2, #d0dbe7); }
-.bubble {
-  max-width: 78%; padding: 0.7rem 1rem; border-radius: 16px;
-  font-size: 0.88rem; line-height: 1.6;
-}
-.bot .bubble { background: #f0f6ff; color: #1a2940; border-bottom-right-radius: 4px; }
-.user .bubble { background: var(--blue); color: #fff; border-bottom-left-radius: 4px; }
-.typing { display: flex; gap: 5px; padding: 0.8rem 1rem; background: #f0f6ff; border-radius: 16px; border-bottom-right-radius: 4px; width: fit-content; }
-.typing span { width: 7px; height: 7px; border-radius: 50%; background: #8ab0cc; animation: tydot 1.2s ease-in-out infinite; }
-.typing span:nth-child(2) { animation-delay: 0.2s; }
-.typing span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes tydot { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
-
-.quick-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.7rem 0; }
-.qbtn {
-  background: #f0f6ff; border: 1px solid #c8ddf0; color: var(--blue);
-  padding: 0.4rem 0.85rem; border-radius: 50px;
-  font-family: 'Tajawal', sans-serif; font-size: 0.8rem; cursor: pointer;
-  transition: all 0.2s;
-}
-.qbtn:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
-
-.chat-input-row { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-.chat-input {
-  flex: 1; border: 2px solid #dde8f2; border-radius: 12px;
-  padding: 0.65rem 1rem; font-family: 'Tajawal', sans-serif; font-size: 0.88rem;
-  outline: none; transition: border-color 0.2s; background: #fafcff;
-  direction: rtl;
-}
-.chat-input:focus { border-color: var(--cyan); }
-.send-btn {
-  background: var(--blue); color: #fff;
-  border: none; border-radius: 12px; width: 46px; height: 46px;
-  font-size: 1.1rem; cursor: pointer; transition: background 0.2s, transform 0.15s;
-  display: flex; align-items: center; justify-content: center;
-}
-.send-btn:hover { background: var(--cyan); transform: scale(1.05); }
-
-/* CONTACT */
-.contact-panel { display: none; flex-direction: column; gap: 1rem; }
-.contact-panel.show { display: flex; }
-.wa-big {
-  display: flex; align-items: center; gap: 1rem;
-  background: linear-gradient(135deg, #25D366, #1ebe57);
-  border-radius: 16px; padding: 1.5rem;
-  text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 6px 25px rgba(37,211,102,0.3);
-}
-.wa-big:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(37,211,102,0.45); }
-.wa-big .wa-icon { font-size: 2.5rem; }
-.wa-big .wa-text h3 { color: #fff; font-size: 1.1rem; font-weight: 900; }
-.wa-big .wa-text p { color: rgba(255,255,255,0.8); font-size: 0.85rem; direction: ltr; }
-.contact-info { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-.cinfo {
-  background: #f4f8fc; border-radius: 12px; padding: 1rem;
-  border: 1px solid #e0eaf4; text-align: center;
-}
-.cinfo .ci-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
-.cinfo .ci-label { font-size: 0.75rem; color: #7a8fa0; }
-.cinfo .ci-val { font-size: 0.88rem; font-weight: 700; color: #1a2940; direction: ltr; }
-
-/* FOOTER */
-.card-footer {
-  background: #f4f8fc; border-top: 1px solid #e8edf4;
-  padding: 1.2rem 2.5rem;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 0.5rem;
-}
-.footer-brand { font-size: 0.82rem; color: #7a8fa0; }
-.footer-brand b { color: var(--blue); }
-.footer-wa {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: #25D366; color: #fff;
-  padding: 0.45rem 1.1rem; border-radius: 50px;
-  text-decoration: none; font-size: 0.82rem; font-weight: 700;
-  box-shadow: 0 3px 12px rgba(37,211,102,0.3);
-  transition: transform 0.2s;
-}
-.footer-wa:hover { transform: scale(1.04); }
-</style>
+        .btn-send { 
+            background: linear-gradient(45deg, var(--neon-purple), var(--neon-cyan)); 
+            color: white; border: none; padding: 18px; width: 100%; 
+            border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 17px; 
+            transition: 0.4s; text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .btn-send:hover { 
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(112, 0, 255, 0.5);
+        }
+    </style>
 </head>
 <body>
-<div class="card">
-  <!-- HEADER -->
-  <div class="card-header">
-    <div class="circuits"></div>
-    <div style="text-align:center; position:relative; z-index:1;">
-      <div class="badge-live"><div class="dot-live"></div> نظام نشط الآن</div>
-      <h1>🚀 CipherNest</h1>
-      <p class="sub">حلولك التقنية المتكاملة — ذكي، آمن، ومتطور</p>
-    </div>
-  </div>
 
-  <!-- BODY -->
-  <div class="card-body" style="padding-top: 2rem;">
-    <!-- TABS -->
-    <div class="tabs">
-      <button class="tab active" onclick="showTab('services', this)">🛠️ الخدمات</button>
-      <button class="tab" onclick="showTab('chat', this)">🤖 سايبر AI</button>
-      <button class="tab" onclick="showTab('contact', this)">📲 تواصل</button>
-    </div>
+<div class="container">
+    <header>
+        <div class="logo" onclick="showSection('home')">CipherNest</div>
+        <p style="color: var(--neon-cyan); opacity: 0.8; font-weight: bold; font-size: 15px;">احترافية برمجية وأمان سيبراني عالمي في العيون والجنوب</p>
+    </header>
 
-    <!-- SERVICES TAB -->
-    <div class="services show" id="tab-services">
-      <div class="svc blue" onclick="toggleSvc(this)">
-        <div class="svc-top">
-          <div class="svc-left">
-            <span class="svc-icon">💻</span>
-            <div>
-              <div class="svc-title">تطوير البرمجيات</div>
-              <div class="svc-desc-short">مواقع، تطبيقات، أنظمة مخصصة</div>
+    <section id="home" class="page-section active">
+        <div class="services-grid">
+            <div class="service-card" onclick="showDetails('web')">
+                <div class="img-box">
+                    <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=cover" alt="تطوير متاجر إلكترونية">
+                </div>
+                <div class="card-body">
+                    <h3>تطوير المتاجر الذكية</h3>
+                    <p>منصات بيع متطورة تجذب العملاء وتضاعف أرباحك في وقت قياسي.</p>
+                </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.5rem">
-            <span class="price">من $500</span>
-            <span class="arrow">›</span>
-          </div>
-        </div>
-        <div class="svc-detail">
-          <ul>
-            <li>تصميم وبرمجة مواقع احترافية بأحدث التقنيات</li>
-            <li>تطبيقات موبايل لأنظمة Android و iOS</li>
-            <li>أنظمة إدارة مخصصة (CRM, ERP, Dashboard)</li>
-            <li>واجهات API وخدمات الويب المتكاملة</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="svc cyan" onclick="toggleSvc(this)">
-        <div class="svc-top">
-          <div class="svc-left">
-            <span class="svc-icon">🛡️</span>
-            <div>
-              <div class="svc-title">الأمن السيبراني</div>
-              <div class="svc-desc-short">فحص ثغرات، حماية، تأمين سيرفرات</div>
+            <div class="service-card" onclick="showDetails('security')">
+                <div class="img-box">
+                    <img src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=600&auto=format&fit=cover" alt="أمن سيبراني">
+                </div>
+                <div class="card-body">
+                    <h3>درع الأمن السيبراني</h3>
+                    <p>حماية بياناتك ومواقعك ضد الاختراق تحت إشراف سيدي القائد.</p>
+                </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.5rem">
-            <span class="price cyan">من $300</span>
-            <span class="arrow">›</span>
-          </div>
-        </div>
-        <div class="svc-detail">
-          <ul>
-            <li>اختبار الاختراق وتحليل الثغرات (Pentest)</li>
-            <li>تأمين السيرفرات والشبكات ضد الهجمات</li>
-            <li>حماية البيانات الحساسة والمعلومات السرية</li>
-            <li>تقارير أمنية تفصيلية مع خطط العلاج</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="svc purple" onclick="toggleSvc(this)">
-        <div class="svc-top">
-          <div class="svc-left">
-            <span class="svc-icon">🤖</span>
-            <div>
-              <div class="svc-title">أتمتة الذكاء الاصطناعي</div>
-              <div class="svc-desc-short">دمج AI لرفع كفاءة عملك</div>
+            <div class="service-card" onclick="showDetails('apps')">
+                <div class="img-box">
+                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&auto=format&fit=cover" alt="تطوير تطبيقات">
+                </div>
+                <div class="card-body">
+                    <h3>برمجة التطبيقات</h3>
+                    <p>نحول أفكارك الكبرى إلى تطبيقات جوال تكتسح المتاجر بأحدث التقنيات.</p>
+                </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.5rem">
-            <span class="price purple">مخصص</span>
-            <span class="arrow">›</span>
-          </div>
         </div>
-        <div class="svc-detail">
-          <ul>
-            <li>دمج أدوات AI في سير العمل اليومي</li>
-            <li>شات بوت ذكي مخصص لعملك</li>
-            <li>أتمتة المهام المتكررة وتوفير الوقت</li>
-            <li>تحليل البيانات والتقارير الذكية</li>
-          </ul>
-        </div>
-      </div>
+    </section>
 
-      <div class="offer-box">
-        <p>🎁 استشارة تقنية أولية مجانية 100%!</p>
-        <small>تواصل معنا الآن واحصل على تقييم مشروعك بدون تكلفة</small>
-      </div>
-    </div>
-
-    <!-- CHAT TAB -->
-    <div class="chat-panel" id="tab-chat">
-      <div class="chat-msgs" id="chatMsgs"></div>
-      <div class="quick-btns" id="quickBtns">
-        <button class="qbtn" onclick="quickMsg('ما هي خدماتكم؟')">ما هي خدماتكم؟</button>
-        <button class="qbtn" onclick="quickMsg('كم تكلفة موقع إلكتروني؟')">أسعار المواقع</button>
-        <button class="qbtn" onclick="quickMsg('اريد اختبار اختراق')">Pentest</button>
-        <button class="qbtn" onclick="quickMsg('تواصل مع فريقكم')">تواصل معكم</button>
-      </div>
-      <div class="chat-input-row">
-        <input class="chat-input" id="chatInput" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter') sendMsg()">
-        <button class="send-btn" onclick="sendMsg()">➤</button>
-      </div>
-    </div>
-
-    <!-- CONTACT TAB -->
-    <div class="contact-panel" id="tab-contact">
-      <a class="wa-big" href="https://wa.me/212658412040?text=مرحباً،%20أريد%20الاستفسار%20عن%20خدماتكم" target="_blank">
-        <span class="wa-icon">📲</span>
-        <div class="wa-text">
-          <h3>تواصل عبر واتساب</h3>
-          <p>+212 658 412 040</p>
+    <section id="details" class="page-section">
+        <div class="back-btn" onclick="showSection('home')"> ⬅ العودة للرئيسية </div>
+        <div class="details-container">
+            <div class="info-side">
+                <div class="detail-img-box">
+                    <img id="service-detail-img" src="" alt="تفاصيل الخدمة">
+                </div>
+                <h1 id="service-title" style="font-size: 32px; margin-bottom: 15px; color: white;">الخدمة التقنية</h1>
+                <p id="service-desc" style="font-size: 16px; color: #ccc; line-height: 1.8; margin-bottom: 25px;"></p>
+                <div style="background: rgba(112, 0, 255, 0.08); padding: 25px; border-radius: 15px; border-right: 4px solid var(--neon-purple);">
+                    <ul id="service-features" style="list-style: none; padding: 0; margin: 0; font-size: 15px; color: white;">
+                        </ul>
+                </div>
+            </div>
+            
+            <div class="form-side">
+                <div class="form-box">
+                    <h3 style="text-align: center; margin-bottom: 30px; color: white;">ابدأ مشروعك الاحترافي</h3>
+                    <input type="text" id="client_name" placeholder="الاسم الكامل أو اسم شركتك">
+                    <select id="budget_select">
+                        <option value="5000-10000">ميزانية بين 5,000 و 10,000 درهم</option>
+                        <option value="10000-20000">ميزانية بين 10,000 و 20,000 درهم</option>
+                        <option value="20000+">ميزانية تفوق 20,000 درهم</option>
+                    </select>
+                    <button class="btn-send" onclick="sendToWhatsapp()">🚀 إرسال الطلب لواتساب سيدي القائد</button>
+                    <p style="text-align: center; font-size: 12px; color: #666; margin-top: 15px;">فريق CipherNest سيتواصل معك في أقل من ساعتين.</p>
+                </div>
+            </div>
         </div>
-        <span style="margin-right:auto;color:rgba(255,255,255,0.7);font-size:1.4rem;">›</span>
-      </a>
-      <div class="contact-info">
-        <div class="cinfo">
-          <div class="ci-icon">⚡</div>
-          <div class="ci-label">وقت الرد</div>
-          <div class="ci-val">خلال ساعة</div>
-        </div>
-        <div class="cinfo">
-          <div class="ci-icon">🌍</div>
-          <div class="ci-label">نخدم</div>
-          <div class="ci-val">العالم العربي</div>
-        </div>
-        <div class="cinfo">
-          <div class="ci-icon">🎁</div>
-          <div class="ci-label">استشارة</div>
-          <div class="ci-val">مجانية 100%</div>
-        </div>
-        <div class="cinfo">
-          <div class="ci-icon">🔒</div>
-          <div class="ci-label">ضمان</div>
-          <div class="ci-val">سرية تامة</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <div class="card-footer">
-    <div class="footer-brand">مرحباً، أنا <b>سايبر</b> من <b>CipherNest</b> 🛡️</div>
-    <a class="footer-wa" href="https://wa.me/212658412040" target="_blank">📲 واتساب</a>
-  </div>
+    </section>
 </div>
 
 <script>
-// TABS
-function showTab(name, btn) {
-  document.querySelectorAll('.services,.chat-panel,.contact-panel').forEach(el => el.classList.remove('show'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('show');
-  btn.classList.add('active');
-  if (name === 'chat' && !chatStarted) { chatStarted = true; startChat(); }
-}
+    // بيانات الخدمات والصور المباشرة الاحترافية
+    const services = {
+        web: {
+            title: "تطوير المتاجر والمنصات الذكية",
+            desc: "نحن في CipherNest نبني لك واجهة تجارية تليق بطموحاتك، مع سرعة تصفح خيالية وتوافق كامل مع محركات البحث SEO، لضمان اكتساح سوق العيون والمغرب.",
+            features: ["✓ تصميم متجاوب (Responsive)", "✓ سرعة تحميل فائقة", "✓ حماية ضد الهجمات البرمجية", "✓ لوحة تحكم عربية بسيطة"],
+            img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=cover"
+        },
+        security: {
+            title: "الأمن السيبراني وحماية الأصول الرقمية",
+            desc: "الأمان ليس خياراً بل ضرورة. نقوم بتأمين سيرفراتك، فحص الثغرات، ووضع درع حماية سيبراني لا يمكن اختراقه تحت إشراف خبير وطني متخصص.",
+            features: ["✓ اختبار اختراق شامل (Pentesting)", "✓ تأمين حسابات ومواقع الشركات", "✓ تشفير قواعد البيانات الحساسة", "✓ تقارير أمنية دورية للفريق"],
+            img: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=800&auto=format&fit=cover"
+        },
+        apps: {
+            title: "برمجة تطبيقات الجوال (iOS & Android)",
+            desc: "نصمم لك تجربة مستخدم فريدة بلمسات عالمية، تضمن لك تفاعل العملاء وسهولة الوصول لخدماتك عبر تطبيقات جوال احترافية وسريعة.",
+            features: ["✓ واجهات UI/UX عصرية", "✓ أداء سلس وسريع على كافة الأجهزة", "✓ ربط مع أنظمة الدفع المحلية والعالمية", "✓ دعم كامل للتحديثات المستقبلية"],
+            img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=cover"
+        }
+    };
 
-// SERVICES
-function toggleSvc(el) {
-  const wasOpen = el.classList.contains('open');
-  document.querySelectorAll('.svc').forEach(s => s.classList.remove('open'));
-  if (!wasOpen) el.classList.add('open');
-}
+    let currentService = "";
 
-// CHAT
-let chatStarted = false;
-const botReplies = {
-  'خدمات': 'نقدم ثلاث خدمات رئيسية:\n1️⃣ تطوير البرمجيات (مواقع، تطبيقات)\n2️⃣ الأمن السيبراني (pentest، حماية)\n3️⃣ أتمتة الذكاء الاصطناعي\nأيها يهمك أكثر؟',
-  'موقع': 'تصميم الموقع يبدأ من $500 ويشمل: تصميم احترافي، ريسبونسف، لوحة تحكم، SEO أساسي. حدثني عن مشروعك لأعطيك سعراً دقيقاً 💻',
-  'سعر': 'الأسعار تعتمد على المشروع:\n• موقع بسيط: من $500\n• تطبيق موبايل: من $800\n• Pentest: من $300\nتواصل معنا على واتساب للحصول على عرض مجاني!',
-  'pentest': 'خدمة اختبار الاختراق تشمل: فحص شامل للثغرات، محاولة الاختراق المحاكي، تقرير تفصيلي مع الحلول. تبدأ من $300. هل تريد تقييماً لموقعك أو سيرفرك؟ 🛡️',
-  'اختراق': 'خدمة اختبار الاختراق تشمل: فحص شامل للثغرات، محاولة الاختراق المحاكي، تقرير تفصيلي مع الحلول. تبدأ من $300. هل تريد تقييماً لموقعك أو سيرفرك؟ 🛡️',
-  'تواصل': 'يمكنك التواصل معنا مباشرة عبر:\n📲 واتساب: +212 658 412 040\nسنرد خلال ساعة! أو اضغط على تاب "تواصل" أعلاه 😊',
-  'default': 'شكراً لسؤالك! للحصول على إجابة دقيقة وسريعة، تواصل معنا على واتساب: 📲 +212 658 412 040 وسيرد عليك فريقنا خلال ساعة 🚀'
-};
+    function showSection(id) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-function getReply(msg) {
-  msg = msg.toLowerCase();
-  for (const key in botReplies) {
-    if (key !== 'default' && msg.includes(key)) return botReplies[key];
-  }
-  return botReplies['default'];
-}
+    function showDetails(type) {
+        currentService = services[type].title;
+        document.getElementById('service-title').innerText = services[type].title;
+        document.getElementById('service-desc').innerText = services[type].desc;
+        document.getElementById('service-detail-img').src = services[type].img; // تغيير صورة التفاصيل
+        
+        const list = document.getElementById('service-features');
+        list.innerHTML = "";
+        services[type].features.forEach(f => {
+            const li = document.createElement('li');
+            li.style.marginBottom = "12px";
+            li.innerText = f;
+            list.appendChild(li);
+        });
+        
+        showSection('details');
+    }
 
-function addMsg(text, type) {
-  const msgs = document.getElementById('chatMsgs');
-  const div = document.createElement('div');
-  div.className = 'msg ' + type;
-  const av = type === 'bot' ? '🤖' : '👤';
-  div.innerHTML = `<div class="avatar">${av}</div><div class="bubble">${text.replace(/\n/g,'<br>')}</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
+    function sendToWhatsapp() {
+        const name = document.getElementById('client_name').value;
+        const budget = document.getElementById('budget_select').value;
+        
+        if(!name) { alert("يا سيدي القائد، يرجى كتابة الاسم لنتواصل معك بشكل صحيح وباحترافية."); return; }
 
-function showTyping() {
-  const msgs = document.getElementById('chatMsgs');
-  const div = document.createElement('div');
-  div.className = 'msg bot'; div.id = 'typing';
-  div.innerHTML = `<div class="avatar">🤖</div><div class="typing"><span></span><span></span><span></span></div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function hideTyping() {
-  const t = document.getElementById('typing');
-  if (t) t.remove();
-}
-
-function startChat() {
-  setTimeout(() => {
-    addMsg('أهلاً! أنا سايبر 🤖 المساعد الذكي من CipherNest.\nكيف يمكنني مساعدتك اليوم؟', 'bot');
-  }, 400);
-}
-
-function sendMsg() {
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if (!msg) return;
-  input.value = '';
-  addMsg(msg, 'user');
-  document.getElementById('quickBtns').style.display = 'none';
-  showTyping();
-  setTimeout(() => {
-    hideTyping();
-    addMsg(getReply(msg), 'bot');
-  }, 1000 + Math.random() * 600);
-}
-
-function quickMsg(msg) {
-  document.getElementById('chatInput').value = msg;
-  sendMsg();
-}
+        const myNumber = "2126XXXXXXXX"; // استبدله برقم واتسابك الشخصي
+        const msg = `*طلب مشروع جديد لـ CipherNest*%0A%0A` +
+                    `🤖 *سيدي القائد، لدينا عميل بانتظارك:*%0A%0A` +
+                    `👤 *الاسم:* ${name}%0A` +
+                    `🛠 *الخدمة المطلوبة:* ${currentService}%0A` +
+                    `💰 *الميزانية:* ${budget} درهم%0A%0A` +
+                    `_يرجى مراجعة الطلب للبدء في التنفيذ في أسبوعين._`;
+        
+        window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
+    }
 </script>
+
 </body>
 </html>
