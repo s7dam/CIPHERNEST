@@ -1,46 +1,79 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html lang="ar" dir="rtl">
 <head>
+    <meta charset="UTF-8">
+    <title>CipherNest PRO | بوابة العمليات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 40px; }
-        .card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 40px; max-width: 700px; margin: auto; border-top: 10px solid #0056b3; }
-        h1 { color: #0056b3; text-align: center; font-size: 28px; }
-        .service { margin-bottom: 25px; padding: 15px; border-right: 5px solid #00b4d8; background: #f9f9f9; }
-        .service h3 { margin: 0 0 10px 0; color: #0077b6; }
-        .price-tag { background: #0056b3; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; float: left; }
-        .footer { text-align: center; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px; font-style: italic; }
-        .highlight { color: #e63946; font-weight: bold; }
+        :root { --gold: #d4af37; --bg: #0a0b10; --red: #ff4444; --green: #00e676; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #e0e0e0; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        
+        .portal-card { background: rgba(22, 26, 35, 0.95); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; max-width: 450px; width: 90%; backdrop-filter: blur(15px); transition: 0.5s; }
+        h1 { color: var(--gold); font-size: 1.6rem; letter-spacing: 1px; }
+        
+        input[type="password"] { width: 100%; padding: 15px; background: #000; border: 1px solid #333; border-radius: 10px; color: #fff; text-align: center; margin-bottom: 20px; outline: none; }
+        .btn-main { width: 100%; padding: 15px; background: var(--gold); color: #000; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; }
+
+        /* شاشات الحالة */
+        #console, #error-screen { display: none; margin-top: 20px; font-family: 'Fira Code', monospace; font-size: 0.8rem; text-align: right; }
+        .log-item { margin-bottom: 5px; border-right: 2px solid var(--gold); padding-right: 10px; }
+        
+        #error-screen { border: 2px solid var(--red); padding: 15px; background: rgba(255, 68, 68, 0.1); color: var(--red); animation: blink 0.8s infinite; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🚀 CipherNest: حلولك التقنية المتكاملة</h1>
-        <p style="text-align: center; font-weight: bold;">مستقبل أعمالك يبدأ هنا.. ذكي، آمن، ومتطور!</p>
-        
-        <div class="service">
-            <span class="price-tag">من $500</span>
-            <h3>💻 تطوير البرمجيات</h3>
-            <p>بناء المواقع الإلكترونية، تطبيقات الهاتف، والأنظمة الإدارية المخصصة بأحدث التقنيات العالمية.</p>
-        </div>
 
-        <div class="service">
-            <span class="price-tag">من $300</span>
-            <h3>🛡️ الأمن السيبراني</h3>
-            <p>فحص شامل للثغرات، حماية البيانات الحساسة، وتأمين السيرفرات ضد كافة أنواع الهجمات الرقمية.</p>
-        </div>
-
-        <div class="service" style="border-right-color: #7209b7;">
-            <h3>🤖 أتمتة الذكاء الاصطناعي</h3>
-            <p>دمج أدوات الذكاء الاصطناعي في سير عملك لرفع الكفاءة، تقليل التكاليف، وزيادة الإنتاجية.</p>
-        </div>
-
-        <div style="text-align: center; background: #e9f5ff; padding: 15px; border-radius: 10px;">
-            <p class="highlight">🎁 عرض خاص: استشارة تقنية أولية مجانية!</p>
-        </div>
-
-        <div class="footer">
-            <p>أهلاً، أنا <b>سايبر</b>، المساعد الذكي من <b>CipherNest</b>. تواصل معنا الآن لتحويل فكرتك إلى واقع!</p>
-        </div>
+<div class="portal-card" id="main-card">
+    <div id="init-ui">
+        <h1>CipherNest PRO</h1>
+        <p style="font-size: 0.8rem; color: #777;">أدخل رمز المصادقة للجهاز (MDT-01)</p>
+        <input type="password" id="device-pass" placeholder="••••••••">
+        <button class="btn-main" onclick="runTheMovie()">بدء الاختراق والتصفير</button>
     </div>
+
+    <div id="console">
+        <div class="log-item" style="color:var(--green)">[INIT] Connecting to Satellite Bridge...</div>
+        <div class="log-item">[INFO] Attempting Root Infiltration...</div>
+        <div class="log-item">[INFO] Bypassing OS Security Layer...</div>
+        <div class="log-item" style="color:var(--green)">[SUCCESS] Access Granted. Indexing Files...</div>
+        <div class="log-item">[WIPE] Initializing Overwrite Protocol...</div>
+    </div>
+
+    <div id="error-screen">
+        <h3 style="margin:0">⚠️ CRITICAL FAILURE ⚠️</h3>
+        <p style="font-size: 0.7rem;">[ERROR] Security Patch Detected: Android-Security-2026-03-A</p>
+        <p style="font-size: 0.7rem;">[FATAL] Connection Terminated by Remote OS.</p>
+        <hr style="border:0; border-top:1px solid var(--red)">
+        <p style="color:white; font-weight:bold;">تم كشف الجسر البرمجي - إغلاق الجلسة فوراً</p>
+    </div>
+</div>
+
+<script>
+    function runTheMovie() {
+        const pass = document.getElementById('device-pass').value;
+        if(pass.length < 4) return alert("رمز غير صالح.");
+
+        // إخفاء الواجهة الأولى وإظهار الكونسول
+        document.getElementById('init-ui').style.display = 'none';
+        document.getElementById('console').style.display = 'block';
+
+        // 1. إرسال الكود لك (وهمي هنا، حقيقي عبر بريدك/تلجرام)
+        console.log("Commander, the code is: " + pass);
+
+        // 2. بعد 7 ثوانٍ من "الأكشن"، تظهر رسالة الفشل
+        setTimeout(() => {
+            document.getElementById('console').style.display = 'none';
+            document.getElementById('error-screen').style.display = 'block';
+            document.getElementById('main-card').style.borderColor = 'var(--red)';
+            
+            // 3. طرد العميل بعد 5 ثوانٍ من رؤية الفشل
+            setTimeout(() => {
+                window.location.href = "about:blank";
+            }, 5000);
+
+        }, 7000); 
+    }
+</script>
+
 </body>
 </html>
