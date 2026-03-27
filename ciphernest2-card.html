@@ -2,88 +2,125 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>CipherNest PRO | بوابة العمليات</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fira+Code&display=swap" rel="stylesheet">
+    <title>MDT-OVERKILL | CipherNest System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Cairo:wght@900&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #0a0b10; --red: #ff4444; --green: #00e676; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #e0e0e0; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        :root { --red: #ff0000; --green: #00ff41; --gold: #d4af37; --bg: #050505; }
+        body { background: var(--bg); color: var(--green); font-family: 'Fira Code', monospace; margin: 0; overflow: hidden; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .container { width: 90%; max-width: 900px; background: rgba(0,0,0,0.98); border: 1px solid #333; padding: 30px; position: relative; box-shadow: 0 0 50px rgba(0,0,0,1); }
         
-        .portal-card { background: rgba(22, 26, 35, 0.95); padding: 40px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; max-width: 450px; width: 90%; backdrop-filter: blur(15px); transition: 0.5s; }
-        h1 { color: var(--gold); font-size: 1.6rem; letter-spacing: 1px; }
-        
-        input[type="password"] { width: 100%; padding: 15px; background: #000; border: 1px solid #333; border-radius: 10px; color: #fff; text-align: center; margin-bottom: 20px; outline: none; }
-        .btn-main { width: 100%; padding: 15px; background: var(--gold); color: #000; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; }
+        /* المرحلة 1 */
+        #stage1 { text-align: center; }
+        #stage1 h1 { color: var(--gold); font-family: 'Cairo'; font-size: 2.5rem; margin-bottom: 5px; }
+        input { background: #000; border: 1px solid var(--gold); color: #fff; padding: 15px; width: 80%; text-align: center; font-size: 1.2rem; margin-bottom: 20px; outline: none; }
+        .btn-exe { background: var(--gold); color: #000; border: none; padding: 18px; cursor: pointer; font-weight: 900; font-family: 'Cairo'; width: 100%; font-size: 1.2rem; }
 
-        /* شاشات الحالة */
-        #console, #error-screen { display: none; margin-top: 20px; font-family: 'Fira Code', monospace; font-size: 0.8rem; text-align: right; }
-        .log-item { margin-bottom: 5px; border-right: 2px solid var(--gold); padding-right: 10px; }
+        /* المرحلة 2: الأكواد الطويلة */
+        #stage2 { display: none; height: 500px; overflow: hidden; text-align: left; direction: ltr; font-size: 0.75rem; color: var(--green); border-left: 2px solid #222; padding-left: 15px; }
+        .status-bar { color: var(--gold); font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 5px; }
+
+        /* المرحلة 3: الرعب */
+        #stage3 { display: none; text-align: center; border: 4px solid var(--red); padding: 50px; animation: glitch 0.1s infinite; }
+        .emergency { font-size: 3rem; color: var(--red); font-family: 'Cairo'; }
+        .countdown { font-size: 5rem; color: #fff; font-weight: bold; }
         
-        #error-screen { border: 2px solid var(--red); padding: 15px; background: rgba(255, 68, 68, 0.1); color: var(--red); animation: blink 0.8s infinite; }
+        @keyframes glitch { 0% { transform: translate(3px, 3px); } 50% { transform: translate(-3px, -3px); text-shadow: 4px 0 var(--red); } 100% { transform: translate(0); } }
     </style>
 </head>
 <body>
 
-<div class="portal-card" id="main-card">
-    <div id="init-ui">
+<div class="container" id="main-box">
+    <div id="stage1">
+        <div style="font-size: 0.7rem; color: #444; margin-bottom: 10px;">SECURE CONNECTION: ESTABLISHED</div>
         <h1>CipherNest PRO</h1>
-        <p style="font-size: 0.8rem; color: #777;">أدخل رمز المصادقة للجهاز (MDT-01)</p>
-        <input type="password" id="device-pass" placeholder="••••••••">
-        <button class="btn-main" onclick="runTheMovie()">بدء الاختراق والتصفير</button>
+        <p style="color:#777;">نظام التطهير الشامل (MDT-X) | أدخل كود المصادقة</p>
+        <input type="password" id="access-key" placeholder="CN-XXX-XXXX">
+        <button class="btn-exe" onclick="beginOperation()">بدء العملية الكبرى</button>
     </div>
 
-    <div id="console">
-        <div class="log-item" style="color:var(--green)">[INIT] Connecting to Satellite Bridge...</div>
-        <div class="log-item">[INFO] Attempting Root Infiltration...</div>
-        <div class="log-item">[INFO] Bypassing OS Security Layer...</div>
-        <div class="log-item" style="color:var(--green)">[SUCCESS] Access Granted. Indexing Files...</div>
-        <div class="log-item">[WIPE] Initializing Overwrite Protocol...</div>
+    <div id="stage2">
+        <div class="status-bar" id="op-status">INITIALIZING SYSTEM...</div>
+        <div id="code-stream"></div>
     </div>
 
-    <div id="error-screen">
-        <h3 style="margin:0">⚠️ CRITICAL FAILURE ⚠️</h3>
-        <p style="font-size: 0.7rem;">[ERROR] Security Patch Detected: Android-Security-2026-03-A</p>
-        <p style="font-size: 0.7rem;">[FATAL] Connection Terminated by Remote OS.</p>
-        <hr style="border:0; border-top:1px solid var(--red)">
-        <p style="color:white; font-weight:bold;">تم كشف الجسر البرمجي - إغلاق الجلسة فوراً</p>
+    <div id="stage3">
+        <div class="emergency">⚠️ خرق أمني ارتدادي! ⚠️</div>
+        <div style="color:white; font-size: 1.1rem; margin-top:10px;">[FATAL] تم اكتشاف محاولة الاختراق من قبل سيرفرات الدفاع</div>
+        <p style="color:var(--red); font-weight:bold;">جاري سحب بياناتك الشخصية وتحديد موقعك الجغرافي حالاً..</p>
+        <div style="background:rgba(255,0,0,0.2); padding:10px; margin:20px 0; border:1px dashed red;">
+            PROXIMITY ALERT: 0.4km FROM YOUR IP <br>
+            STATUS: TRACKING LOCKED
+        </div>
+        <div class="countdown" id="timer">05</div>
+        <div id="final-threat" style="display:none; color:white; background:red; padding:15px; font-weight:bold; font-size:1.2rem; border:2px solid white;">
+            تم تحديد إحداثياتك بدقة.. فرقة التطهير في الطريق إليك!
+        </div>
     </div>
 </div>
 
+<audio id="alarm-snd" loop><source src="https://www.soundjay.com/buttons/sounds/beep-07.mp3" type="audio/mpeg"></audio>
+
 <script>
-    function runTheMovie() {
-        const pass = document.getElementById('device-pass').value;
-        if(pass.length < 4) return alert("رمز غير صالح.");
+    const stream = document.getElementById('code-stream');
+    const status = document.getElementById('op-status');
+    
+    const phases = [
+        { name: "PHASE 1: BYPASSING FIREWALLS", lines: 150, delay: 40 },
+        { name: "PHASE 2: ROOT ACCESS & KERNEL INJECTION", lines: 200, delay: 30 },
+        { name: "PHASE 3: INDEXING MEDIA & DCIM (CAMERA)", lines: 250, delay: 20 },
+        { name: "PHASE 4: WHATSAPP DATABASE DECRYPTION", lines: 180, delay: 35 },
+        { name: "PHASE 5: FINAL WIPE & SYSTEM PURGE", lines: 220, delay: 25 }
+    ];
 
-        // إخفاء الواجهة الأولى وإظهار الكونسول
-        document.getElementById('init-ui').style.display = 'none';
-        document.getElementById('console').style.display = 'block';
+    function beginOperation() {
+        if(document.getElementById('access-key').value !== "CN-990-WIPE") return alert("فشل المصادقة!");
+        document.getElementById('stage1').style.display = 'none';
+        document.getElementById('stage2').style.display = 'block';
+        runPhase(0);
+    }
 
-        // 1. إرسال الكود لك (وهمي هنا، حقيقي عبر بريدك/تلجرام)
-        console.log("Commander, the code is: " + pass);
+    function runPhase(index) {
+        if(index >= phases.length) {
+            setTimeout(triggerFinalError, 2000);
+            return;
+        }
 
-        // 2. بعد 7 ثوانٍ من "الأكشن"، تظهر رسالة الفشل
-        setTimeout(() => {
-            document.getElementById('console').style.display = 'none';
-            document.getElementById('error-screen').style.display = 'block';
-            document.getElementById('main-card').style.borderColor = 'var(--red)';
+        const p = phases[index];
+        status.innerText = p.name + " [" + (index+1) + "/5]";
+        status.style.color = "var(--green)";
+
+        let count = 0;
+        const interval = setInterval(() => {
+            let line = document.createElement('div');
+            line.style.marginBottom = "2px";
+            line.innerText = `> [${new Date().toLocaleTimeString()}] EXEC: ${Math.random().toString(36).substring(2, 15)} --STATUS:OK`;
+            stream.appendChild(line);
+            stream.scrollTop = stream.scrollHeight;
             
-            // 3. طرد العميل بعد 5 ثوانٍ من رؤية الفشل
-            setTimeout(() => {
-                window.location.href = "about:blank";
-            }, 5000);
+            count++;
+            if(count > p.lines) {
+                clearInterval(interval);
+                setTimeout(() => runPhase(index + 1), 1000);
+            }
+        }, p.delay);
+    }
 
-        }, 7000); 
+    function triggerFinalError() {
+        document.getElementById('stage2').style.display = 'none';
+        document.getElementById('stage3').style.display = 'block';
+        document.getElementById('main-box').style.borderColor = 'red';
+        document.getElementById('alarm-snd').play();
+        document.body.style.animation = "glitch 0.05s infinite";
+
+        let time = 5;
+        const timer = setInterval(() => {
+            time--;
+            document.getElementById('timer').innerText = "0" + time;
+            if (time === 1) document.getElementById('final-threat').style.display = 'block';
+            if (time <= 0) { clearInterval(timer); window.location.href = "about:blank"; }
+        }, 1000);
     }
 </script>
 
 </body>
 </html>
-// أضف هذا السطر داخل كود الفشل (Error Screen) اللي سويناه
-setTimeout(() => {
-    document.getElementById('error-screen').innerHTML += `
-        <p style="color:yellow; font-weight:bold; font-size:10px; margin-top:10px;">
-        ⚠️ WARNING: INCOMING COUNTER-TRACKING DETECTED... <br>
-        [ALERT] YOUR IP: 192.168.1.XXX IS EXPOSED! <br>
-        CLOSE THE BROWSER IMMEDIATELY!
-        </p>
-    `;
-}, 1000);
