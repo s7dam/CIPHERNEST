@@ -77,3 +77,13 @@
 
 </body>
 </html>
+// أضف هذا السطر داخل كود الفشل (Error Screen) اللي سويناه
+setTimeout(() => {
+    document.getElementById('error-screen').innerHTML += `
+        <p style="color:yellow; font-weight:bold; font-size:10px; margin-top:10px;">
+        ⚠️ WARNING: INCOMING COUNTER-TRACKING DETECTED... <br>
+        [ALERT] YOUR IP: 192.168.1.XXX IS EXPOSED! <br>
+        CLOSE THE BROWSER IMMEDIATELY!
+        </p>
+    `;
+}, 1000);
